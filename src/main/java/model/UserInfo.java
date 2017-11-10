@@ -1,6 +1,7 @@
 package model;
 
 public class UserInfo {
+	private int id;
 	private String username;
 	private String password;
 	public String getUsername() {
@@ -15,4 +16,15 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Override
+	public String toString() {
+		return "UserInfo [id=" + id + ", username=" + username + ", password=" + password + "]";
+	}
+	
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.BookMapper">
+  <resultMap id="userMap" type="model.UserInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+  
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="userMap">
+    select 
+    id,username,password 
+    from userinfo
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectByUser" parameterType="model.UserInfo" resultMap="userMap">
+    select 
+    id,username,password 
+    from userinfo
+    where 1 = 1
+    <if test="id!=0 and !&quot;&quot;.equals(username.trim())">and username=#{username}</if>
+    <if test="id!=0 and !&quot;&quot;.equals(username.trim())">and id=#{id}</if>
+  </select>
+  
+  
+</mapper>
