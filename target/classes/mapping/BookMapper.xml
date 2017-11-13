@@ -24,5 +24,16 @@
     <if test="id!=0 and !&quot;&quot;.equals(username.trim())">and id=#{id}</if>
   </select>
   
+  <delete id="deleteOne" parameterType="java.lang.Integer">
+  	delete from userinfo where id = #{_parameter}
+  </delete>
+  
+  <delete id="deleteBatch" parameterType="java.util.List">
+  	delete from userinfo where id in (
+  		<foreach collection="list" item="item" separator=",">
+  			#{item}
+  		</foreach>
+  	)
+  </delete>
   
 </mapper>

@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -18,5 +20,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserInfo getUserByUser(UserInfo user) {
 		return bookDao.selectByUser(user);
+	}
+
+	@Override
+	public void delete(int id) {
+		bookDao.deleteOne(id);
+	}
+
+	@Override
+	public void deleteBatch(List<Integer> ids) {
+		bookDao.deleteBatch(ids);
 	}
 }

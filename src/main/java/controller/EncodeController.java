@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -31,7 +34,25 @@ public class EncodeController {
 		UserInfo user = new UserInfo();
 		user.setId(2);
 		user.setUsername("xiaoming");
+		if(null != user)
 		System.out.println(userService.getUserByUser(user).toString());
+		return "successlogin";
+	}
+	
+	@RequestMapping(value="k.do")
+	public String viewAll4() {
+		userService.delete(2);
+		return "successlogin";
+	}
+	//批量删除
+	@RequestMapping(value="l.do")
+	public String viewAll5() {
+		List<Integer> ids = new ArrayList<>();
+		ids.add(new Integer(3));
+		ids.add(new Integer(4));
+		ids.add(new Integer(5));
+		ids.add(new Integer(6));
+		userService.deleteBatch(ids);
 		return "successlogin";
 	}
 }
