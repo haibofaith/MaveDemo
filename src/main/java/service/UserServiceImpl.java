@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import dao.BookMapper;
+import model.BookBean;
 import model.UserInfo;
 @Service
 public class UserServiceImpl implements UserService{
@@ -30,5 +31,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void deleteBatch(List<Integer> ids) {
 		bookDao.deleteBatch(ids);
+	}
+
+	@Override
+	public List<BookBean> selectBookBean(BookBean book) {
+		return bookDao.selectBookBean(book);
 	}
 }
