@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import model.BookBean;
+import model.StudentBean;
 import model.UserInfo;
 import service.UserService;
 
@@ -58,13 +59,50 @@ public class EncodeController {
 		return "successlogin";
 	}
 
-	// 批量删除
+	// 查询
 	@RequestMapping(value = "m.do")
 	public String viewAll6() {
 		BookBean book = new BookBean();
-//		book.setIdbook(1);
 //		book.setBookname("鹿鼎记");
+//		book.setIdbook(2);
 		System.out.println(userService.selectBookBean(book));
 		return "successlogin";
 	}
+	
+	// 批量删除
+	@RequestMapping(value = "n.do")
+	public String viewAll7() {
+		BookBean book = new BookBean();
+		book.setIdbook(2);
+		book.setBookname("天龙八部");
+//		book.setBookwriter("金庸");
+		userService.updateBookListById(book);
+		return "successlogin";
+	}
+	
+	// 批量删除
+	@RequestMapping(value = "o.do")
+	public String viewAll8() {
+//		BookBean book = new BookBean();
+//		book.setIdbook(2);
+//		book.setBookname("天龙八部");
+////		book.setBookwriter("金庸");
+		System.out.println(userService.selectBooklistById(1).toString());
+		return "successlogin";
+	}
+	
+	// 查询
+	@RequestMapping(value = "p.do")
+	public String viewAll9() {
+//		BookBean book = new BookBean();
+//		book.setIdbook(2);
+//		book.setBookname("天龙八部");
+////		book.setBookwriter("金庸");
+		StudentBean studentBean = new StudentBean();
+//		studentBean.setIdstudent(1);
+		studentBean.setStudentname("bobo");
+		System.out.println(userService.selectStudentBean(studentBean));
+		return "successlogin";
+	}
+	
 }

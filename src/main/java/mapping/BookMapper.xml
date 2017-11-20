@@ -12,7 +12,8 @@
 		select
 		id,username,password
 		from userinfo
-		where username = #{username,jdbcType=VARCHAR}
+		where username =
+		#{username,jdbcType=VARCHAR}
 	</select>
 
 
@@ -21,13 +22,15 @@
 		select
 		id,username,password
 		from userinfo
-		where 1 = 1
-		<if test="id!=0 and !&quot;&quot;.equals(username.trim())">and username=#{username}</if>
-		<if test="id!=0 and !&quot;&quot;.equals(username.trim())">and id=#{id}</if>
+		<where>
+			<if test="id!=0 and !&quot;&quot;.equals(username.trim())">and username=#{username}</if>
+			<if test="id!=0 and !&quot;&quot;.equals(username.trim())">and id=#{id}</if>
+		</where>
 	</select>
 
 	<delete id="deleteOne" parameterType="java.lang.Integer">
-		delete from userinfo where id = #{_parameter}
+		delete from userinfo where
+		id = #{_parameter}
 	</delete>
 
 	<delete id="deleteBatch" parameterType="java.util.List">
@@ -45,27 +48,97 @@
 		<!-- 子表集合 -->
 		<collection property="bookdetails" resultMap="bookdetail"></collection>
 	</resultMap>
- 	<resultMap type="model.BookDetailBean" id="bookdetail">
- 		<id column="idreal" jdbcType="INTEGER" property="idreal" />
-			<result column="bookcontent" jdbcType="VARCHAR" property="bookcontent" />
-			<result column="idbookdetail" jdbcType="INTEGER" property="idbookdetail" />
- 	 </resultMap> 
+	<resultMap type="model.BookDetailBean" id="bookdetail">
+		<id column="idreal" jdbcType="INTEGER" property="idreal" />
+		<result column="bookcontent" jdbcType="VARCHAR" property="bookcontent" />
+		<result column="idbookdetail" jdbcType="INTEGER" property="idbookdetail" />
+	</resultMap>
+	<!-- <select id="selectBookBean" parameterType="model.BookBean" resultMap="bookbean"> 
+		select a.idbook,a.bookname,a.bookwriter,b.idbookdetail,b.bookcontent,b.idreal 
+		from booklist a left join bookdetail b on a.idbook = b.idbookdetail <where> 
+		<if test="bookname!=null and !&quot;&quot;.equals(bookname.trim())"> and 
+		a.bookname = #{bookname} </if> <if test="idbook!=0"> and a.idbook =#{idbook} 
+		</if> </where> order by a.idbook </select> -->
 
 	<select id="selectBookBean" parameterType="model.BookBean"
 		resultMap="bookbean">
-		select a.idbook,a.bookname,a.bookwriter,b.idbookdetail,b.bookcontent,b.idreal
+		select
+		a.idbook,a.bookname,a.bookwriter,b.idbookdetail,b.bookcontent,b.idreal
 		from booklist a left join bookdetail b on a.idbook = b.idbookdetail
-		<where>
+		<trim prefix="where" prefixOverrides="and">
 			<if test="bookname!=null and !&quot;&quot;.equals(bookname.trim())">
 				and a.bookname = #{bookname}
 			</if>
 			<if test="idbook!=0">
 				and a.idbook =#{idbook}
 			</if>
-		</where>
+		</trim>
 		order by a.idbook
 	</select>
 
+	<!-- <select id="selectBookBean" parameterType="model.BookBean" resultMap="bookbean"> 
+		select a.idbook,a.bookname,a.bookwriter from booklist a <where> <choose> 
+		<when test="bookname!=null and !&quot;&quot;.equals(bookname.trim())"> a.bookname 
+		= #{bookname} </when> <when test="idbook!=0"> a.idbook =#{idbook} </when> 
+		<otherwise> a.idbook =1 </otherwise> </choose> </where> order by a.idbook 
+		</select> -->
 
+	<!-- <update id="updateBookListById" parameterType="model.BookBean"> update 
+		booklist <set> <if test="bookname!=null and !&quot;&quot;.equals(bookname.trim())"> 
+		bookname = #{bookname}, </if> <if test="bookwriter!=null and !&quot;&quot;.equals(bookwriter.trim())"> 
+		bookwriter = #{bookwriter}, </if> </set> where idbook = #{idbook} </update> -->
+
+	<update id="updateBookListById" parameterType="model.BookBean">
+		update booklist
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bookname!=null and !&quot;&quot;.equals(bookname.trim())">
+				bookname = #{bookname},
+			</if>
+			<if test="bookwriter!=null and !&quot;&quot;.equals(bookwriter.trim())">
+				bookwriter = #{bookwriter},
+			</if>
+		</trim>
+		where idbook = #{idbook}
+	</update>
+
+	<select id="selectBooklistById" parameterType="java.lang.Integer"
+		resultMap="bookbean">
+		select
+		<include refid="booklistcolums"></include>
+		from booklist where idbook = #{_parameter}
+	</select>
+
+	<sql id="booklistcolums">idbook,bookname,bookwriter</sql>
+
+	<!-- 子表 -->
+	<resultMap type="model.StuclassBean" id="stuclassbean">
+		<id column="idstuclass" jdbcType="INTEGER" property="idstuclass" />
+		<result column="stuclassname" jdbcType="VARCHAR" property="stuclassname" />
+		<result column="stuclassdetail" jdbcType="VARCHAR" property="stuclassdetail" />
+		<result column="C_idstudent" jdbcType="INTEGER" property="idstudent" />
+	</resultMap>
+
+	<!-- 主表 -->
+	<resultMap type="model.StudentBean" id="studentbean">
+		<id column="idstudent" jdbcType="INTEGER" property="idstudent" />
+		<result column="studentname" jdbcType="VARCHAR" property="studentname" />
+		<collection property="clazzs" resultMap="stuclassbean"></collection>
+	</resultMap>
+
+	<select id="selectStudentBean" parameterType="model.StudentBean"
+		resultMap="studentbean">
+		select a.idstudent,
+		a.studentname,
+		b.idstuclass,
+		b.stuclassname,
+		b.stuclassdetail,
+		b.idstudent C_idstudent　
+		from student a left join stuclass b on a.idstudent = b.idstudent
+		<where>
+			<if test="studentname!=null">
+				studentname = #{studentname}
+			</if>
+		</where>
+	</select>
 
 </mapper>
