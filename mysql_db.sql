@@ -1,4 +1,3 @@
-据说，有小伙伴说我没写建表语句。在此处补上。可见mysql_db.sql文件。
 /*
  Navicat Premium Data Transfer
 
