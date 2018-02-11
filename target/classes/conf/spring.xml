@@ -49,4 +49,7 @@
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
         <property name="dataSource" ref="dataSource" />  
     </bean> 
+    
+     <!--ssm 集成 mongodb  -->  
+    <import resource="classpath:conf/spring-mongodb.xml"/>  
 </beans>

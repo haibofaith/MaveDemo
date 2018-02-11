@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import model.BookBean;
 import model.StudentBean;
+import model.User;
 import model.UserInfo;
+import service.MongoService;
 import service.UserService;
 
 @Controller
@@ -105,4 +107,16 @@ public class EncodeController {
 		return "successlogin";
 	}
 	
+
+	@Resource
+	private MongoService mongoService;	
+	// 查询
+	@RequestMapping(value = "q.do")
+	public String viewAll10() {
+		User user = new User();
+		user.setName("hehe");
+		user.setAge(30);
+		mongoService.insert(user);
+		return "successlogin";
+	}
 }

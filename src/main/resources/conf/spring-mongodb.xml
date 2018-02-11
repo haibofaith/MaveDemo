@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.2.xsd">
+	<!-- Default bean name is 'mongo' -->    
+    <mongo:mongo></mongo:mongo>
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    		<constructor-arg ref="mongo"></constructor-arg>
+    		<constructor-arg value="user_mongodb_01"></constructor-arg>
+    </bean>
+    
+    <bean id="userDao" class="dao.impl.UserDao" />  
+</beans>
