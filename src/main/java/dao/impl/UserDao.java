@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
 
 import dao.IUserDao;
 import model.User;
-@Component
+
 public class UserDao extends AbstractBaseMongoTemplete  implements IUserDao{
     
     /**  
