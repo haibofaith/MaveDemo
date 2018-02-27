@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,6 +14,7 @@ import model.StudentBean;
 import model.User;
 import model.UserInfo;
 import service.MongoService;
+import service.RedisService;
 import service.UserService;
 
 @Controller
@@ -65,51 +67,53 @@ public class EncodeController {
 	@RequestMapping(value = "m.do")
 	public String viewAll6() {
 		BookBean book = new BookBean();
-//		book.setBookname("鹿鼎记");
-//		book.setIdbook(2);
+		// book.setBookname("鹿鼎记");
+		// book.setIdbook(2);
 		System.out.println(userService.selectBookBean(book));
 		return "successlogin";
 	}
-	
+
 	// 批量删除
 	@RequestMapping(value = "n.do")
 	public String viewAll7() {
 		BookBean book = new BookBean();
 		book.setIdbook(2);
 		book.setBookname("天龙八部");
-//		book.setBookwriter("金庸");
+		// book.setBookwriter("金庸");
 		userService.updateBookListById(book);
 		return "successlogin";
 	}
-	
+
 	// 批量删除
 	@RequestMapping(value = "o.do")
 	public String viewAll8() {
-//		BookBean book = new BookBean();
-//		book.setIdbook(2);
-//		book.setBookname("天龙八部");
-////		book.setBookwriter("金庸");
+		// BookBean book = new BookBean();
+		// book.setIdbook(2);
+		// book.setBookname("天龙八部");
+		//// book.setBookwriter("金庸");
 		System.out.println(userService.selectBooklistById(1).toString());
 		return "successlogin";
 	}
-	
+
 	// 查询
 	@RequestMapping(value = "p.do")
 	public String viewAll9() {
-//		BookBean book = new BookBean();
-//		book.setIdbook(2);
-//		book.setBookname("天龙八部");
-////		book.setBookwriter("金庸");
+		// BookBean book = new BookBean();
+		// book.setIdbook(2);
+		// book.setBookname("天龙八部");
+		//// book.setBookwriter("金庸");
 		StudentBean studentBean = new StudentBean();
-//		studentBean.setIdstudent(1);
+		// studentBean.setIdstudent(1);
 		studentBean.setStudentname("bobo");
 		System.out.println(userService.selectStudentBean(studentBean));
 		return "successlogin";
 	}
-	
 
 	@Resource
-	private MongoService mongoService;	
+	private MongoService mongoService;
+	@Autowired
+	private RedisService redisService;
+
 	// 查询
 	@RequestMapping(value = "q.do")
 	public String viewAll10() {
@@ -117,6 +121,25 @@ public class EncodeController {
 		user.setName("hehe");
 		user.setAge(30);
 		mongoService.insert(user);
+		return "successlogin";
+	}
+
+	// 查询
+	@RequestMapping(value = "r.do")
+	public String viewAll11() {
+		String name = null;
+		User users = null;
+		users = redisService.get("5a800f9e462f7d2c3add42d6");
+		if (users != null) {
+			System.out.println("没有执行了数据库查询操作---------------");
+			name = users.getName();
+		} else {
+			System.out.println("执行了数据库查询操作---------------");
+			users = mongoService.findById("5a800f9e462f7d2c3add42d6");
+			redisService.add(users);
+			name = users.getName().toString();
+		}
+		System.out.println("-------" + "-------" + name);
 		return "successlogin";
 	}
 }

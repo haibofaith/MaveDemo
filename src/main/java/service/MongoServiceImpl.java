@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import dao.IUserDao;
 import dao.impl.UserDao;
 import model.User;
 @Service

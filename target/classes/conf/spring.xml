@@ -11,7 +11,8 @@
 	<!-- 引入配置文件 -->  
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
-        <property name="location" value="classpath:conf/jdbc.property" />  
+        <property name="location" value="classpath:conf/jdbc.property" /> 
+         <property name="ignoreUnresolvablePlaceholders" value="true" />    
     </bean>  
 	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource"  
         destroy-method="close">  
@@ -52,4 +53,6 @@
     
      <!--ssm 集成 mongodb  -->  
     <import resource="classpath:conf/spring-mongodb.xml"/>  
+        <!-- 引入同文件夹下的redis属性配置文件 -->
+    <import resource="redis-context.xml"/>
 </beans>

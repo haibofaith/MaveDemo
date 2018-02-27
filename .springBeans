@@ -8,6 +8,7 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/resources/conf/spring-mongodb.xml</config>
+		<config>src/main/resources/conf/redis-context.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/resources/conf/springmvc-servlet.xml</config>
